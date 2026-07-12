@@ -4,7 +4,7 @@
 
 在线游玩：https://dream-star-end.github.io/hello-world/
 
-[使用 EdgeOne Makers 免费部署](https://edgeone.ai/pages/new?repository-url=https%3A%2F%2Fgithub.com%2Fdream-star-end%2Fhello-world&repository-name=hello-world&project-name=wanjie-xiuxian&output-directory=dist&install-command=npm%20ci&build-command=npm%20run%20build)
+[使用 EdgeOne Makers 免费部署](https://console.cloud.tencent.com/edgeone/makers/new?repository-url=https%3A%2F%2Fgithub.com%2Fdream-star-end%2Fhello-world&repository-name=hello-world&project-name=wanjie-xiuxian&output-directory=dist&install-command=npm%20ci&build-command=npm%20run%20build)
 
 ## 运行
 

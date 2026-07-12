@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  // GitHub Pages project sites are served from /<repository>/.
-  base: '/hello-world/'
+  // Relative assets work on GitHub Pages subpaths and EdgeOne root domains.
+  base: './'
 });

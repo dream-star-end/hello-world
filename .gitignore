@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.vite/
+*.log
+.DS_Store
+
+# Local browser-test captures
+menu.png
+game.png
+test-game*.png
+boss-test.png
+mobile-*.png

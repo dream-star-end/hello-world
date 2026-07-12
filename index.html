@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#07110f" />
+    <meta name="description" content="万劫问仙——东方水墨修仙割草游戏" />
+    <title>万劫问仙 · 修仙割草</title>
+    <link rel="icon" href="/hello-world/favicon.svg" type="image/svg+xml" />
+    <script type="module" crossorigin src="/hello-world/assets/index-DPP3D5-V.js"></script>
+    <link rel="stylesheet" crossorigin href="/hello-world/assets/index-BVYuZrzU.css">
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game-canvas" aria-label="游戏画面"></canvas>
+
+      <div id="vignette"></div>
+      <div id="hit-flash"></div>
+      <div id="cursor-glow"></div>
+
+      <section id="landing" class="screen active" aria-label="主菜单">
+        <div class="landing-mist mist-a"></div>
+        <div class="landing-mist mist-b"></div>
+        <header class="brand-block">
+          <div class="eyebrow"><i></i> 东方幻想 · 生存割草 <i></i></div>
+          <h1><span>万劫</span><b>问仙</b></h1>
+          <div class="seal">破<br />境</div>
+          <p>一念御万剑，只身渡千劫</p>
+        </header>
+
+        <div class="landing-panel glass-panel">
+          <div class="panel-label">选择本命传承</div>
+          <div id="hero-list" class="hero-list"></div>
+          <div class="menu-row">
+            <label class="difficulty-select">
+              <span>试炼难度</span>
+              <select id="difficulty">
+                <option value="0.85">问道 · 轻松</option>
+                <option value="1" selected>筑基 · 标准</option>
+                <option value="1.25">金丹 · 艰难</option>
+              </select>
+            </label>
+            <button id="start-btn" class="primary-btn ink-button">
+              <span>踏入秘境</span><small>ENTER</small>
+            </button>
+          </div>
+          <div class="save-summary">
+            <div><span>最高境界</span><strong id="best-level">炼气一层</strong></div>
+            <i></i>
+            <div><span>最长历练</span><strong id="best-time">00:00</strong></div>
+            <i></i>
+            <div><span>灵玉</span><strong><em class="jade-dot"></em><b id="jade-count">0</b></strong></div>
+          </div>
+        </div>
+
+        <div class="landing-actions">
+          <button id="cave-btn" class="text-btn"><span class="icon">⌂</span>洞府</button>
+          <button id="guide-btn" class="text-btn"><span class="icon">?</span>仙途指引</button>
+          <button id="sound-menu-btn" class="text-btn"><span class="icon">♫</span>音律 <b>开</b></button>
+        </div>
+        <div class="version">云梦秘境 · 甲辰卷</div>
+      </section>
+
+      <main id="game-ui" class="screen" aria-label="游戏界面">
+        <header class="top-hud">
+          <div class="player-card glass-panel">
+            <div id="portrait" class="portrait"><span>剑</span><i></i></div>
+            <div class="player-bars">
+              <div class="player-title"><strong id="realm-name">炼气一层</strong><span id="player-level">LV.1</span></div>
+              <div class="bar hp-bar"><i id="hp-fill"></i><span id="hp-text">100 / 100</span></div>
+              <div class="bar qi-bar"><i id="qi-fill"></i><span>护体真元</span></div>
+            </div>
+          </div>
+
+          <div class="trial-info">
+            <div class="chapter"><span>云梦秘境</span><strong id="wave-label">第一劫</strong></div>
+            <div class="timer" id="timer">00:00</div>
+            <div class="wave-progress"><i id="wave-fill"></i></div>
+          </div>
+
+          <div class="run-stats glass-panel">
+            <div><span class="stat-icon sword-icon">†</span><p><small>斩妖</small><b id="kill-count">0</b></p></div>
+            <div><span class="stat-icon jade-icon">◆</span><p><small>灵玉</small><b id="run-jade">0</b></p></div>
+            <button id="pause-btn" aria-label="暂停">Ⅱ</button>
+          </div>
+        </header>
+
+        <div id="boss-hud" class="boss-hud hidden">
+          <div><span id="boss-name">赤焰魔君</span><small>秘境镇守</small></div>
+          <div class="boss-bar"><i id="boss-fill"></i></div>
+        </div>
+
+        <aside id="objective" class="objective glass-panel">
+          <div class="objective-title"><span>本劫天机</span><b id="objective-progress">0 / 80</b></div>
+          <p id="objective-text">斩杀来袭妖物</p>
+          <div class="mini-progress"><i id="objective-fill"></i></div>
+        </aside>
+
+        <div id="combo" class="combo hidden"><small>连斩</small><strong>×<b>0</b></strong><span>剑意正盛</span></div>
+        <div id="announcement" class="announcement"><span></span><strong></strong><small></small></div>
+
+        <section class="bottom-hud">
+          <div id="skill-dock" class="skill-dock"></div>
+          <div class="xp-block">
+            <div class="xp-label"><span>修为</span><b id="xp-text">0 / 20</b><strong id="next-realm">距突破尚远</strong></div>
+            <div class="xp-bar"><i id="xp-fill"></i><em></em></div>
+          </div>
+        </section>
+
+        <div id="joystick" class="joystick hidden"><i></i><b></b></div>
+        <button id="dash-touch" class="dash-touch hidden"><span>闪</span><small>身法</small></button>
+        <div id="controls-tip"><kbd>WASD</kbd> 移动 <i></i> <kbd>空格</kbd> 闪身 <i></i> 自动御剑</div>
+      </main>
+
+      <div id="modal-layer">
+        <section id="level-modal" class="modal upgrade-modal hidden" role="dialog" aria-modal="true">
+          <div class="modal-heading">
+            <span>BREAKTHROUGH</span>
+            <h2>境界突破</h2>
+            <p>灵台清明，择一仙缘纳入道心</p>
+          </div>
+          <div id="upgrade-cards" class="upgrade-cards"></div>
+          <div class="reroll-row">
+            <button id="reroll-btn">⟳ 重衍天机 <span>1</span></button>
+            <small>按 <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> 快速选择</small>
+          </div>
+        </section>
+
+        <section id="pause-modal" class="modal pause-modal hidden" role="dialog" aria-modal="true">
+          <div class="round-symbol">☯</div>
+          <span class="modal-kicker">一念静心</span>
+          <h2>历练暂歇</h2>
+          <p>山中无甲子，世上已千年</p>
+          <button id="resume-btn" class="primary-btn">继续历练 <small>ESC</small></button>
+          <div class="pause-buttons">
+            <button id="sound-pause-btn">♫ 音律：<b>开</b></button>
+            <button id="restart-btn">↻ 重新历练</button>
+            <button id="quit-btn">⌂ 返回洞天</button>
+          </div>
+        </section>
+
+        <section id="result-modal" class="modal result-modal hidden" role="dialog" aria-modal="true">
+          <div id="result-seal" class="result-seal">渡<br />劫</div>
+          <span id="result-kicker" class="modal-kicker">此劫未尽</span>
+          <h2 id="result-title">道消于此</h2>
+          <p id="result-quote">大道五十，天衍四九，尚有一线生机</p>
+          <div class="result-stats">
+            <div><small>历练时长</small><strong id="result-time">00:00</strong></div>
+            <div><small>斩妖除魔</small><strong id="result-kills">0</strong></div>
+            <div><small>突破境界</small><strong id="result-level">炼气一层</strong></div>
+            <div><small>所得灵玉</small><strong id="result-jade">0</strong></div>
+          </div>
+          <div class="result-actions">
+            <button id="again-btn" class="primary-btn">再入轮回</button>
+            <button id="home-btn">返回洞天</button>
+          </div>
+        </section>
+
+        <section id="cave-modal" class="modal cave-modal hidden" role="dialog" aria-modal="true">
+          <button class="close-modal" data-close="cave-modal">×</button>
+          <span class="modal-kicker">洞天福地</span>
+          <h2>参悟道藏</h2>
+          <p>消耗灵玉，永久提升所有传承</p>
+          <div class="cave-jade"><em class="jade-dot"></em>持有灵玉 <b id="cave-jade-count">0</b></div>
+          <div id="meta-list" class="meta-list"></div>
+        </section>
+
+        <section id="guide-modal" class="modal guide-modal hidden" role="dialog" aria-modal="true">
+          <button class="close-modal" data-close="guide-modal">×</button>
+          <span class="modal-kicker">初窥仙门</span>
+          <h2>仙途指引</h2>
+          <div class="guide-grid">
+            <div><b>壹</b><span><strong>踏罡步斗</strong>WASD / 方向键移动，空格闪身。移动端使用双侧触控。</span></div>
+            <div><b>贰</b><span><strong>万法自生</strong>法宝会自动攻击近处妖物，只需专注走位与拾取灵气。</span></div>
+            <div><b>叁</b><span><strong>破境择缘</strong>修为圆满时三选一，升级法宝、习得神通或淬炼道体。</span></div>
+            <div><b>肆</b><span><strong>天劫将至</strong>每三劫会有大妖降世。击败它可得宝匣与大量灵玉。</span></div>
+          </div>
+          <button class="primary-btn close-guide" data-close="guide-modal">我已明悟</button>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

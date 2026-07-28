@@ -1,0 +1,96 @@
+
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='x-ua-compatible' content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    title #{siteName}
+    style.
+      body {
+        background: #000;
+      }
+      #content-loading {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .termmind-loader {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: #f5f3ff;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      .termmind-loader-mark {
+        display: grid;
+        width: 52px;
+        height: 52px;
+        place-items: center;
+        border: 1px solid rgba(168, 151, 255, .5);
+        border-radius: 16px;
+        background: linear-gradient(145deg, #8d7cf7, #5543c5);
+        box-shadow: 0 12px 34px rgba(93, 72, 207, .36);
+        font-size: 24px;
+        animation: termmind-pulse 1.8s ease-in-out infinite;
+      }
+      .termmind-loader-copy {
+        display: flex;
+        flex-direction: column;
+      }
+      .termmind-loader-copy strong {
+        font-size: 20px;
+        letter-spacing: .02em;
+      }
+      .termmind-loader-copy small {
+        margin-top: 4px;
+        color: #817c94;
+        font-size: 9px;
+        letter-spacing: .18em;
+      }
+      @keyframes termmind-pulse {
+        50% { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(93, 72, 207, .48); }
+      }
+
+    - if (!isDev)
+      link(rel='stylesheet', href='css/style-' + version + '.css')
+      style(id='theme-css').
+      style(id='custom-css').
+  body
+    - if (isDev)
+      style(id='theme-css').
+      style(id='custom-css').
+    #container
+    #content-loading
+      .termmind-loader
+        .termmind-loader-mark ✦
+        .termmind-loader-copy
+          strong TermMind
+          small AI SSH WORKSPACE
+    script.
+      window.et = !{JSON.stringify(_global)}
+    - var url = '/src/client/entry/basic.js'
+    - if (isDev)
+      //- script(src='/external/react.development.js?' + version)
+      //- script(src='/external/react-dom.development.js?' + version)
+      script(type='module').
+        import RefreshRuntime from '/@react-refresh'
+        RefreshRuntime.injectIntoGlobalHook(window)
+        window.$RefreshReg$ = () => {}
+        window.$RefreshSig$ = () => (type) => type
+        window.__vite_plugin_react_preamble_installed__ = true
+      script(src='/@vite/client', type='module')
+      script(src=url1, type='module')
+      script(src=url, type='module')
+    - else
+      //- script(src='/external/react.production.min.js?' + version)
+      //- script(src='/external/react-dom.production.min.js?' + version)
+      - var url = src='/js/basic-' + version + '.js'
+      script(src=url1, type='module')
+      script(src=url, type='module')

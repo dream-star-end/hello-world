@@ -1,0 +1,16 @@
+TermMind
+========
+
+This project is a derivative work based on Electerm:
+
+  Project: https://github.com/electerm/electerm
+  Upstream commit: b1729eb67a4cd9cf1182de69dc2c8e051931740f
+  License: MIT
+  Copyright (c) 2017~2026 ZHAO Xudong
+
+The original MIT license is preserved in the repository root as LICENSE.
+Electerm and its maintainers do not endorse this derivative project.
+
+TermMind-specific additions include local-first command/output capture,
+operations diagnosis, structured session timelines, encrypted operational
+knowledge, and user-triggered AI experience extraction.

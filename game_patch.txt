@@ -1,4 +1,0 @@
-Add debug logging to understand launch pad behavior:
-- Log when resetGame sets launched and launchDeadline
-- Log in frame loop when checking launched status
-- Log when step() is called

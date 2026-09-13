@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html><body>
+<button onclick="document.getElementById('console').innerHTML = ''">Clear Console Mirror</button>
+<div id="console" style="font-family: monospace; font-size: 10px; white-space: pre;"></div>
+<script>
+const origLog = console.log;
+console.log = function(...args) {
+  origLog.apply(console, args);
+  const div = document.getElementById('console');
+  div.innerHTML += args.join(' ') + '\n';
+  div.scrollTop = div.scrollHeight;
+};
+</script>
+</body></html>

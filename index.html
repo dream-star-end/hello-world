@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>NEON SERPENT · 霓虹巨蟒</title>
+<meta name="description" content="A sci-fi themed Snake game — pilot a glowing energy serpent through a neon holo-grid." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%2300ffc8'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="stage">
+    <canvas id="bgCanvas"></canvas>
+
+    <header id="hud" class="panel-frame">
+      <div class="hud-group">
+        <span class="hud-label">SCORE</span>
+        <span class="hud-value" id="hudScore">0</span>
+      </div>
+      <div class="hud-group">
+        <span class="hud-label">LENGTH</span>
+        <span class="hud-value" id="hudLength">3</span>
+      </div>
+      <div class="hud-group">
+        <span class="hud-label">SECTOR</span>
+        <span class="hud-value" id="hudSector">01</span>
+      </div>
+      <div class="hud-group energy-group">
+        <span class="hud-label">ENERGY</span>
+        <div class="energy-bar"><div class="energy-fill" id="hudEnergy"></div></div>
+      </div>
+      <div class="hud-group">
+        <span class="hud-label">BEST</span>
+        <span class="hud-value" id="hudBest">0</span>
+      </div>
+      <button id="btnPauseToggle" class="icon-btn" title="Pause (Space)" aria-label="Pause">II</button>
+    </header>
+
+    <main id="arena">
+      <canvas id="gameCanvas"></canvas>
+
+      <!-- START SCREEN -->
+      <section id="screenStart" class="overlay">
+        <div class="overlay-card">
+          <h1 class="title">
+            <span class="title-en">NEON SERPENT</span>
+            <span class="title-cn">霓虹巨蟒</span>
+          </h1>
+          <p class="subtitle">A rogue data-serpent loose in the station's holo-grid.<br />Consume energy orbs. Grow. Survive the void.</p>
+
+          <div class="howto">
+            <h2>HOW TO PLAY <span class="cn">操作说明</span></h2>
+            <ul>
+              <li><kbd>&#8593;</kbd><kbd>&#8592;</kbd><kbd>&#8595;</kbd><kbd>&#8594;</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> — steer the serpent 移动</li>
+              <li>Swipe on touch screens — steer on mobile 移动端滑动</li>
+              <li><kbd>Space</kbd> / <kbd>Esc</kbd> — pause / resume 暂停</li>
+              <li>Devour energy orbs to grow &amp; score. Avoid walls and your own tail 吃能量球得分，避免撞墙和自己</li>
+            </ul>
+          </div>
+
+          <button id="btnStart" class="btn-primary">
+            <span>▶ START MISSION</span>
+            <span class="cn">开始游戏</span>
+          </button>
+          <p class="hint">Best score on this terminal: <strong id="startBest">0</strong></p>
+        </div>
+      </section>
+
+      <!-- PAUSE SCREEN -->
+      <section id="screenPause" class="overlay hidden">
+        <div class="overlay-card">
+          <h2 class="title-small">SYSTEM PAUSED <span class="cn">已暂停</span></h2>
+          <p class="subtitle">The grid holds steady. Resume whenever you're ready, pilot.</p>
+          <button id="btnResume" class="btn-primary"><span>▶ RESUME</span><span class="cn">继续</span></button>
+          <button id="btnRestartFromPause" class="btn-secondary"><span>⟲ RESTART</span><span class="cn">重新开始</span></button>
+        </div>
+      </section>
+
+      <!-- GAME OVER SCREEN -->
+      <section id="screenOver" class="overlay hidden">
+        <div class="overlay-card">
+          <h2 class="title-small danger">HULL BREACH <span class="cn">任务失败</span></h2>
+          <p class="subtitle" id="overReason">The serpent has collided with the structure.</p>
+          <div class="score-readout">
+            <div>
+              <span class="hud-label">FINAL SCORE</span>
+              <span class="score-big" id="overScore">0</span>
+            </div>
+            <div>
+              <span class="hud-label">BEST</span>
+              <span class="score-big score-best" id="overBest">0</span>
+            </div>
+          </div>
+          <p id="newRecord" class="new-record hidden">✦ NEW HIGH SCORE ✦</p>
+          <button id="btnRestart" class="btn-primary"><span>⟲ RELAUNCH</span><span class="cn">再来一次</span></button>
+        </div>
+      </section>
+    </main>
+
+    <p class="footer-note">Neon Serpent · a sci-fi snake game &mdash; built for the void between the stars ✧</p>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

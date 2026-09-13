@@ -1,103 +1,118 @@
-# TermMind
+# 🐍 NEON SERPENT · 霓虹巨蟒
 
-基于 [Electerm](https://github.com/electerm/electerm) 二次开发的 AI 原生 SSH / SFTP 桌面运维工具。
+A polished, sci-fi themed **Snake** game — pilot a glowing energy serpent through a
+neon holo-grid, devour energy orbs, and survive as long as you can. Built as a
+single static web app: plain **HTML + CSS + JavaScript**, zero dependencies,
+zero build step.
 
-TermMind 不重新实现 SSH 协议、终端仿真和文件传输，而是在成熟的 Electerm 能力之上增加“会话理解层”：自动关联命令、输出、退出码、主机与工作目录，形成可检索的操作时间线，并从真实排障过程里提取诊断与可复用经验。
+一款科幻风格的贪吃蛇游戏：驾驶发光的能量巨蟒穿梭于霓虹网格之中，吞噬能量球，尽可能地生存下去。
+纯静态网页（HTML + CSS + JavaScript），无需依赖、无需构建。
 
-## 当前能力
+![tech](https://img.shields.io/badge/stack-HTML%2FCSS%2FJS-00f6ff) ![deps](https://img.shields.io/badge/dependencies-none-39ff8f)
 
-### 继承自 Electerm
+---
 
-- SSH / Telnet / Serial / RDP / VNC / Spice
-- 本地终端、SFTP / FTP、端口转发、跳板机
-- xterm.js 终端、多标签与分屏、命令历史
-- 多平台 Electron 桌面端
-- OpenAI 兼容模型、Agent 工具调用与 MCP
+## ▶️ Play it / 开始游戏
 
-### TermMind 二开能力
+**Option A — just open the file 直接打开文件**
 
-- **智能会话观察**：基于 Shell Integration 精确识别命令开始与结束。
-- **命令—输出关联**：记录命令、输出、退出码、耗时、主机、用户和工作目录。
-- **本地故障定位**：无需调用模型即可识别磁盘耗尽、OOM、权限、连接、超时、服务失败、DNS 等常见问题。
-- **处理建议**：根据故障证据提供下一步诊断命令，可直接送入当前终端。
-- **操作时间线**：把原始终端流转成结构化、可回看的会话记录。
-- **经验自动提取**：按“问题—证据—操作—结果—关键命令”总结会话并沉淀到知识库。
-- **安全与隐私**：终端数据本地优先、数据库加密、输出自动脱敏；只有用户主动总结时才把脱敏上下文交给已配置的 AI。
-- **智能运维侧栏**：终端底部点击「智维」即可查看诊断、时间线和经验库。
+Double-click `index.html` (or open it with your browser). That's it.
 
-## 技术架构
+**Option B — run a tiny local server (recommended for the best experience) 本地静态服务器（推荐）**
 
-```text
-SSH / PTY / xterm.js（Electerm）
-          │
-          ▼
-Shell Integration OSC 633
-          │
-          ▼
-Command Capture
-命令 + 输出 + exit code + cwd + host + duration
-          │
-          ├── Local Diagnosis Rules（不联网）
-          ├── Encrypted Timeline（本地持久化）
-          └── AI Experience Extractor（用户主动触发）
-                         │
-                         ▼
-                 Operational Memory
-```
-
-核心新增目录：
-
-```text
-src/client/common/ops-intelligence.js
-src/client/store/ops-intelligence.js
-src/client/components/ops-intelligence/
-```
-
-## 开发
-
-建议使用 Node.js 24.x。Electerm 的依赖包含 Electron 与原生模块，首次安装时间较长。
+Some browsers restrict certain APIs (like `localStorage` for the high score) when
+opening files directly via `file://`. If you notice the high score isn't
+persisting, serve the folder instead:
 
 ```bash
-npm config set legacy-peer-deps true
-npm install
+# Python 3
+python3 -m http.server 8000
+
+# or Node.js
+npx serve .
+
+# or PHP
+php -S localhost:8000
 ```
 
-启动 Vite 渲染进程：
+Then visit `http://localhost:8000` in your browser.
 
-```bash
-npm start
+---
+
+## 🎮 Controls / 操作方式
+
+| Action 操作 | Keys 按键 |
+| --- | --- |
+| Move 移动 | Arrow keys `↑ ↓ ← →` or `W A S D` |
+| Move (touch) 移动端 | Swipe on the game grid 在游戏区域滑动 |
+| Pause / Resume 暂停/继续 | `Space` or `Esc`, or the `II` button in the HUD |
+| Start / Restart 开始/重新开始 | `Enter`, `Space`, or the on-screen buttons |
+
+---
+
+## ✨ Features / 特性
+
+- **Classic snake gameplay** — eat to grow, avoid walls and your own tail,
+  score climbs as you survive. 经典玩法：吃食物变长，撞墙或撞到自己即失败，分数持续累积。
+- **Sci-fi visual identity** — animated starfield backdrop, a pulsing holo-grid
+  arena, a glowing gradient serpent (cyan → violet) with directional "eyes,"
+  and radiant energy-orb food with a soft bloom. 科幻视觉：动态星空背景、脉动全息网格、
+  青色到紫色渐变发光的巨蟒（带方向性"眼睛"），以及带柔光的能量球食物。
+  - Rare **magenta "unstable core" orbs** appear occasionally, worth more
+    points but decay on a visible countdown ring before they destabilize.
+    偶尔出现的品红色"不稳定能量核心"分值更高，但带有可见的倒计时环，过期后会消散。
+- **Spaceship-console HUD** — live `SCORE`, `LENGTH`, `SECTOR` (difficulty
+  level), an `ENERGY` bar showing progress to the next sector, and your
+  all-time `BEST`. 飞船控制台风格 HUD：实时显示分数、长度、区域（难度等级）、通往下一区域的能量条，以及历史最高分。
+- **Smooth, responsive controls** — arrow keys, WASD, and swipe gestures on
+  touch devices, with a small input buffer so quick direction taps never feel
+  dropped. 流畅的操作：方向键、WASD、触屏滑动，并带有输入缓冲，快速转向也不会丢失指令。
+- **Particles & juice** — thruster-trail sparks behind the snake's head,
+  energy bursts when eating, a screen shake + red flash + explosion on death.
+  粒子与打击感：巨蟒头部的推进器尾迹火花、进食时的能量爆裂效果，死亡时的画面震动、红色闪光与爆炸。
+  Tiny procedurally-generated sound effects (Web Audio, no audio files) for
+  eating, sector-ups, and crashes. 使用 Web Audio 实时生成的音效（无需音频文件），用于进食、升区和撞毁。
+- **Start / Pause / Game Over screens** — bilingual sci-fi framing, a
+  how-to-play panel, and a persistent high score stored in `localStorage`.
+  开始/暂停/结束界面：中英双语科幻风格文案、玩法说明，以及保存在 `localStorage` 中的历史最高分。
+- **Responsive layout** — scales cleanly from desktop to phone screens.
+  响应式布局：从桌面到手机屏幕均可良好适配。
+
+---
+
+## 🗂️ Project structure / 项目结构
+
+```
+.
+├── index.html   # Markup: HUD, canvas, start/pause/game-over overlays
+├── style.css    # Sci-fi theme: neon glow, starfield frame, responsive layout
+├── game.js      # Game loop, input, rendering, particles, audio — all vanilla JS
+├── LICENSE      # MIT
+└── README.md    # You are here
 ```
 
-另开一个终端启动 Electron：
+No package manager, no bundler, no build step — everything runs directly in
+the browser.
 
-```bash
-npm run app
-```
+---
 
-构建前端：
+## 🛠️ How it works / 实现说明
 
-```bash
-npm run build
-```
+- The playfield is a **28×18 grid** rendered on a `<canvas>`; a second,
+  full-window `<canvas>` behind it draws a soft, drifting starfield.
+- The game loop uses `requestAnimationFrame` with a fixed-timestep
+  accumulator for snake movement, decoupled from real-time particle and
+  background animation, so the game feels smooth on any refresh rate.
+- Difficulty scales through **sectors**: every 50 points, the sector
+  increases and the snake's move interval shortens slightly (clamped to a
+  minimum speed) — shown live on the `ENERGY` bar.
+- The snake body is rendered as a gradient (bright cyan head → deep violet
+  tail) of rounded, glowing tiles; the head gets extra glow and a pair of
+  directional "eyes."
+- High scores persist locally via `localStorage` — no backend required.
 
-代码规范检查：
+---
 
-```bash
-npm run lint
-```
+## 📄 License
 
-## 隐私边界
-
-1. 捕获层不会读取本地密码键入，只接收远端回显。
-2. 命令与输出进入持久化前会清理 ANSI / OSC 控制序列。
-3. Password、Token、API Key、私钥等常见敏感格式会自动替换为 `<redacted>`。
-4. 命中敏感命令时不保存其输出。
-5. `opsCommandEvents`、`opsInsights`、`opsKnowledge` 三张新增数据表均沿用 Electerm 的本地加密能力。
-6. 自动诊断完全在本地完成；AI 总结只在用户点击后调用已配置的模型接口。
-
-## 上游与许可证
-
-本项目基于 Electerm `master` 分支提交 `b1729eb67a4cd9cf1182de69dc2c8e051931740f` 初始化。
-
-Electerm 使用 MIT License。仓库保留原始 `LICENSE`，二次开发说明见 [NOTICE](NOTICE)。
-
+MIT — see [`LICENSE`](LICENSE).
